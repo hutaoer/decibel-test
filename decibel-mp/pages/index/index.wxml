@@ -1,0 +1,70 @@
+<view class="page">
+  <view class="header">
+    <text class="title">分贝测试</text>
+    <text class="calib" bindtap="onCalibrate">校准 K={{kText}}</text>
+  </view>
+
+  <view class="gauge-wrap">
+    <canvas type="2d" id="gauge" class="gauge"></canvas>
+    <view class="readout">
+      <text class="value">{{displayText}}</text>
+      <text class="unit">dB</text>
+    </view>
+    <view class="level" style="color: {{level.color}}">{{level.label}} · {{level.desc}}</view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">实时波形（最近 6 秒）</text>
+    <canvas type="2d" id="wave" class="wave"></canvas>
+  </view>
+
+  <view class="stats">
+    <view class="stat">
+      <text class="stat-label">当前</text>
+      <text class="stat-value">{{displayText}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">平均 Leq</text>
+      <text class="stat-value">{{stat.leq}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">最大</text>
+      <text class="stat-value">{{stat.lmax}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">最小</text>
+      <text class="stat-value">{{stat.lmin}}</text>
+    </view>
+  </view>
+
+  <view class="meta">时长 {{durationText}} · 峰值事件 {{peaksText}} 次</view>
+  <view class="disclaimer">手机麦克风未做专业校准与 A 加权，结果为参考值，非计量器具</view>
+
+  <view wx:if="{{permissionDenied}}" class="deny-card">
+    <text class="deny-title">需要麦克风权限才能测量</text>
+    <text class="deny-desc">仅在本机实时换算音量数值，不保存、不上传录音</text>
+    <view class="btn btn-primary btn-small" bindtap="onOpenSetting">去设置</view>
+  </view>
+
+  <view class="actions">
+    <block wx:if="{{status === 'idle'}}">
+      <view class="btn btn-primary btn-block" bindtap="onStart">开始测量</view>
+    </block>
+    <block wx:elif="{{status === 'measuring'}}">
+      <view class="btn btn-half" bindtap="onPause">暂停</view>
+      <view class="btn btn-primary btn-half" bindtap="onStopTap">结束</view>
+    </block>
+    <block wx:elif="{{status === 'paused'}}">
+      <view class="btn btn-half" bindtap="onResume">继续</view>
+      <view class="btn btn-primary btn-half" bindtap="onStopTap">结束</view>
+    </block>
+    <block wx:else>
+      <view class="btn btn-block btn-disabled">结束中…</view>
+    </block>
+  </view>
+
+  <view class="tabbar">
+    <view class="tab tab-active">测量</view>
+    <view class="tab" bindtap="onGoRecords">记录</view>
+  </view>
+</view>

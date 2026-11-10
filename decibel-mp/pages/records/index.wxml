@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="header">
+    <text class="title">测量记录</text>
+    <picker mode="selector" range="{{filters}}" value="{{filterIndex}}" bindchange="onFilterChange">
+      <view class="filter">筛选：{{filters[filterIndex]}} ▾</view>
+    </picker>
+  </view>
+
+  <view wx:if="{{list.length}}" class="list">
+    <view
+      wx:for="{{list}}"
+      wx:key="id"
+      class="item"
+      data-id="{{item.id}}"
+      bindtap="onItemTap"
+      bindlongpress="onItemLongPress"
+    >
+      <view class="item-main">
+        <view class="item-row">
+          <text class="item-time">{{item.timeText}}</text>
+          <text class="item-tag">{{item.tag}}</text>
+        </view>
+        <view class="item-row">
+          <text class="item-leq">{{item.leqText}}<text class="item-unit">dB</text></text>
+          <text class="item-level" style="color: {{item.levelColor}}">{{item.levelLabel}}</text>
+        </view>
+        <text class="item-duration">时长 {{item.durationText}} · 长按可删除</text>
+      </view>
+      <view class="item-bar" style="background: {{item.levelColor}}"></view>
+    </view>
+  </view>
+
+  <view wx:else class="empty">
+    <text class="empty-title">还没有测量记录</text>
+    <text class="empty-desc">回到测量页，点「开始测量」试一次</text>
+    <view class="btn btn-primary btn-small" bindtap="onBack">去测量</view>
+  </view>
+</view>

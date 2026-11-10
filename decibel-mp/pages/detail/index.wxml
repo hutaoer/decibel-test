@@ -1,0 +1,51 @@
+<view class="page" wx:if="{{record}}">
+  <view class="summary">
+    <view class="summary-head">
+      <text class="time">{{timeText}}</text>
+      <text class="tag" bindtap="onEditTag">{{record.tag}} ▾</text>
+    </view>
+    <view class="summary-value">
+      <text class="leq">{{leqText}}</text>
+      <text class="unit">dB</text>
+      <text class="level" style="color: {{levelColor}}">{{levelLabel}}</text>
+    </view>
+    <text class="summary-desc">平均 Leq · 时长 {{durationText}}</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">时间-分贝曲线</text>
+    <canvas type="2d" id="chart" class="chart"></canvas>
+  </view>
+
+  <view class="stats">
+    <view class="stat">
+      <text class="stat-label">最大</text>
+      <text class="stat-value">{{lmaxText}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">最小</text>
+      <text class="stat-value">{{lminText}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">峰值事件</text>
+      <text class="stat-value">{{peaksText}}</text>
+    </view>
+    <view class="stat">
+      <text class="stat-label">暴露剂量</text>
+      <text class="stat-value">{{doseText}}%</text>
+    </view>
+  </view>
+
+  <view wx:if="{{clippedText}}" class="warn">{{clippedText}}</view>
+
+  <view class="notice">
+    <text class="notice-title">结果说明</text>
+    <text class="notice-text">本结果为手机麦克风估算值，未做 A 加权与专业校准（当前 K={{record.k}}），非计量器具，不作为维权或执法依据；暴露剂量按 NIOSH 85 dBA/8h、3dB 交换率估算，不构成医疗建议。</text>
+  </view>
+
+  <view class="actions">
+    <button class="btn btn-half" open-type="share">发给好友</button>
+    <view class="btn btn-primary btn-half" bindtap="onShareTap">生成卡片</view>
+    <view class="btn btn-block btn-danger" bindtap="onDelete">删除记录</view>
+  </view>
+</view>
